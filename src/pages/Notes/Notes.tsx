@@ -1,16 +1,17 @@
-import { Button } from "@gravity-ui/uikit";
+import { Flex } from "@gravity-ui/uikit";
 import AsideHeader from "../../components/AsideHeader/AsideHeader";
-import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import Content from "./Content/Content";
+import classes from "./Notes.module.css";
 
 export default function NotesPage() {
 	return (
-		<>
-			<AsideHeader />
-			<div> Notes Page </div>
-			<Button view="action" size="l">
-				click me
-			</Button>
-			<Footer />
-		</>
+		<Flex className={classes.page} direction="column" gap={4}>
+			<Header />
+			<Flex direction="row" className={classes.container} gap={4}>
+				<AsideHeader />
+				<Content />
+			</Flex>
+		</Flex>
 	);
 }

@@ -1,0 +1,9 @@
+.page {
+	height: 100vh;
+	padding: 15px;
+}
+
+.container {
+	flex: 1;
+	height: 100%;
+}

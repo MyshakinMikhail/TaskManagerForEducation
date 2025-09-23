@@ -1,0 +1,5 @@
+.noteCard {
+	display: flex;
+	flex-direction: column;
+	padding: 7px;
+}

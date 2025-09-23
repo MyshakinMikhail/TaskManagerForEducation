@@ -1,6 +1,9 @@
-.asideHeader {
-	width: 150px;
-	padding: 10px;
+.content {
+	flex: 1;
 	border: 2px solid rgb(200, 200, 200);
 	border-radius: 12px;
+}
+
+.blocks {
+	padding: 10px;
 }
