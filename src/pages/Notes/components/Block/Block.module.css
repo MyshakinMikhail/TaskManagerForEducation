@@ -1,0 +1,10 @@
+.block {
+	display: flex;
+	flex-direction: column;
+
+	height: fit-content;
+	width: 230px;
+
+	padding: 8px;
+	gap: 8px;
+}
