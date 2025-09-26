@@ -1,9 +1,9 @@
 import { Flex } from "@gravity-ui/uikit";
-import classes from "./Content.module.css";
-import Block from "../Block/Block";
-import { useBlocksStore } from "../../../../store/useBlocks";
 import { useEffect } from "react";
+import { useBlocksStore } from "../../../../store/useBlocks";
+import Block from "../Block/Block";
 import ContentHeader from "../ContentHeader/ContentHeader";
+import classes from "./Content.module.css";
 
 export default function Content() {
 	const { blocks, initialBlocks } = useBlocksStore();

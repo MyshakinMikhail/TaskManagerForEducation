@@ -1,6 +1,6 @@
 import { Button, Flex } from "@gravity-ui/uikit";
-import classes from "./ContentHeader.module.css";
 import { useBlocksStore } from "../../../../store/useBlocks";
+import classes from "./ContentHeader.module.css";
 
 export default function ContentHeader() {
 	const { addEmptyBlock } = useBlocksStore();

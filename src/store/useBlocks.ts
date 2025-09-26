@@ -69,7 +69,9 @@ export const useBlocksStore = create<useBlocksState>((set, get) => ({
 
 	addEmptyNote: (blockId: string) => {
 		const now = new Date();
-		const tomorrow = new Date(now.getTime() + 5 * 1000).toISOString();
+		const tomorrow = new Date(
+			now.getTime() + 60 * 60 * 1000 * 24
+		).toISOString();
 		const newNote: ShortNoteType = {
 			id: uniqueId(),
 			status: "in-progress",

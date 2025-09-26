@@ -16,19 +16,15 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 	const [description, setDescription] = useState<string>(note.description);
 	const [date, setDate] = useState<string>(formatDateToReadable(note.date));
 	const [isEdited, setIsEdited] = useState<boolean>(false);
-	console.log(note.date);
 
 	const { updateNote } = useBlocksStore();
 
 	useEffect(() => {
 		if (
-			note.description !== description ||
-			formatDateToReadable(note.date) !== date
-		) {
-			setIsEdited(true);
-		} else {
+			note.description === description &&
+			formatDateToReadable(note.date) === date
+		)
 			setIsEdited(false);
-		}
 	}, [note.description, description, setIsEdited, note.date, date]);
 
 	return (
@@ -50,6 +46,7 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 					placeholder="Введите описание"
 					onChange={(e) => {
 						setDescription(e.target.value);
+						setIsEdited(true);
 					}}
 				/>
 			</Flex>
