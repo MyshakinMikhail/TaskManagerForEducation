@@ -1,83 +1,33 @@
+// store/slices/notesSlice.ts
 import { v4 as uniqueId } from "uuid";
-import { create } from "zustand";
-import { storage } from "../api/storage";
-import type { BlockType } from "../pages/Notes/types/Block";
-import type { NoteStatusType } from "../pages/Notes/types/NoteStatus";
-import type { ShortNoteType } from "../pages/Notes/types/ShortNoteType";
-import { parseReadableToISO } from "../utils/getFormattedDate";
-import { getStatus, getStatusByDate } from "../utils/getStatus";
+import type { StateCreator } from "zustand";
+import { storage } from "../../api/storage";
+import type { BlockType } from "../../pages/Notes/types/Block";
+import type { NoteStatusType } from "../../pages/Notes/types/NoteStatus";
+import type { ShortNoteType } from "../../pages/Notes/types/ShortNoteType";
+import { parseReadableToISO } from "../../utils/getFormattedDate";
+import { getStatus, getStatusByDate } from "../../utils/getStatus";
+import type { NotesSlice } from "./types";
 
-type useBlocksState = {
-	blocks: BlockType[];
-	initialBlocks: () => void;
-	getBlocks: () => BlockType[];
-	updateNameBlock: (blockId: string, blockName: string) => void;
-	addEmptyBlock: () => void;
-	removeBlock: (id: string) => void;
-	addEmptyNote: (blockId: string) => void;
-	updateNote: (blockId: string, note: ShortNoteType) => void;
-	deleteNote: (blockId: string, noteId: string) => void;
-	changeStatus: (blockId: string, note: ShortNoteType) => void;
-	updateNoteStatus: (blockId: string, note: ShortNoteType) => NoteStatusType;
-};
-
-export const useBlocksStore = create<useBlocksState>((set, get) => ({
-	blocks: [],
-	initialBlocks: () => {
-		const blocks = storage.get();
-		set({ blocks });
-	},
-
-	getBlocks: () => {
-		const blocks = get().blocks;
-		set({ blocks });
-		return blocks;
-	},
-
-	updateNameBlock: (blockId, blockName) => {
-		const blocks = get().blocks;
-		const updatedBlocks = blocks.map((currBlock) =>
-			currBlock.id === blockId
-				? { ...currBlock, name: blockName }
-				: currBlock
-		);
-		set({ blocks: updatedBlocks });
-		storage.set(updatedBlocks);
-	},
-
-	addEmptyBlock: () => {
-		const block = {
-			id: uniqueId(),
-			name: "Новый блок",
-			notes: [],
-		};
-
-		const blocks = get().blocks;
-		const updatedBlocks = [...blocks, block];
-		set({ blocks: updatedBlocks });
-		storage.set(updatedBlocks);
-	},
-
-	removeBlock: (id: string) => {
-		const blocks = get().blocks;
-		const filteredBlocks = blocks.filter(
-			(block: BlockType) => block.id !== id
-		);
-		set({ blocks: filteredBlocks });
-		storage.set(filteredBlocks);
-	},
-
-	addEmptyNote: (blockId: string) => {
+export const createNotesSlice: StateCreator<
+	NotesSlice & { blocks: BlockType[] }, // blocks будут использоваться внутри
+	[],
+	[],
+	NotesSlice
+> = (set, get) => ({
+	addEmptyNote: (blockId) => {
 		const now = new Date();
 		const tomorrow = new Date(
 			now.getTime() + 60 * 60 * 1000 * 24
 		).toISOString();
+
 		const newNote: ShortNoteType = {
 			id: uniqueId(),
 			status: "in-progress",
 			description: "Сделать макет для новой страницы заметок",
 			date: tomorrow,
 		};
+
 		const blocks = get().blocks;
 		const updatedBlocks = blocks.map((block) =>
 			block.id === blockId
@@ -120,16 +70,14 @@ export const useBlocksStore = create<useBlocksState>((set, get) => ({
 		const blocks = get().blocks;
 		const nextStatus: NoteStatusType =
 			selectedNote.status === "completed" ? "in-progress" : "completed";
+
 		const updatedBlocks = blocks.map((block) =>
 			block.id === blockId
 				? {
 						...block,
 						notes: block.notes.map((note) =>
 							note.id === selectedNote.id
-								? {
-										...note,
-										status: nextStatus,
-								  }
+								? { ...note, status: nextStatus }
 								: note
 						),
 				  }
@@ -138,6 +86,7 @@ export const useBlocksStore = create<useBlocksState>((set, get) => ({
 		set({ blocks: updatedBlocks });
 		storage.set(updatedBlocks);
 	},
+
 	deleteNote: (blockId, noteId) => {
 		const blocks = get().blocks;
 		const filteredBlocks = blocks.map((block) =>
@@ -151,6 +100,7 @@ export const useBlocksStore = create<useBlocksState>((set, get) => ({
 		set({ blocks: filteredBlocks });
 		storage.set(filteredBlocks);
 	},
+
 	updateNoteStatus: (blockId, selectedNote) => {
 		if (selectedNote.status === "completed") return "completed";
 
@@ -175,4 +125,4 @@ export const useBlocksStore = create<useBlocksState>((set, get) => ({
 
 		return newStatus;
 	},
-}));
+});

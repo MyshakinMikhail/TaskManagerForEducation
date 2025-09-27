@@ -3,6 +3,7 @@ import { Button, Flex, Icon, Text, TextInput } from "@gravity-ui/uikit";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useBlocksStore } from "../../../../store/useBlocks";
 import { formatDateToReadable } from "../../../../utils/getFormattedDate";
+import { isValidReadableDate } from "../../../../utils/validateDateField";
 import type { ShortNoteType } from "../../types/ShortNoteType";
 import classes from "./NoteModal.module.css";
 
@@ -16,8 +17,11 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 	const [description, setDescription] = useState<string>(note.description);
 	const [date, setDate] = useState<string>(formatDateToReadable(note.date));
 	const [isEdited, setIsEdited] = useState<boolean>(false);
-
 	const { updateNote } = useBlocksStore();
+
+	console.log("render");
+
+	const dateState = !isValidReadableDate(date) ? "invalid" : undefined;
 
 	useEffect(() => {
 		if (
@@ -35,7 +39,7 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 						<Icon data={TextAlignLeft} />
 						<Text>Описание</Text>
 					</Flex>
-					{isEdited && (
+					{isEdited && dateState === undefined && (
 						<Text color="warning">
 							У вас остались не сохраненные изменения
 						</Text>
@@ -58,8 +62,11 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 				</Flex>
 				<TextInput
 					value={date}
+					validationState={dateState}
+					errorMessage="Некорректный формат даты"
 					onChange={(e) => {
 						setDate(e.target.value);
+						setIsEdited(true);
 					}}
 				/>
 			</Flex>
@@ -79,6 +86,7 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 						updateNote(blockId, { ...note, description, date });
 						setOpen(false);
 					}}
+					disabled={dateState === "invalid"}
 				>
 					Сохранить
 				</Button>
