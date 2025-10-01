@@ -1,17 +1,13 @@
 import { Flex, Text } from "@gravity-ui/uikit";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { FilterProvider } from "../../../../context/Filter/FilterProvider";
-import { useBlocksStore } from "../../../../store/useBlocks";
 import BlocksList from "../BlocksList/BlocksList";
 import ContentHeader from "../ContentHeader/ContentHeader";
+import type { RootState } from "./../../../../store";
 import classes from "./Content.module.css";
 
 export default function Content() {
-	const { blocks, initialBlocks } = useBlocksStore();
-
-	useEffect(() => {
-		initialBlocks();
-	}, []);
+	const blocks = useSelector((state: RootState) => state.blocks.blocks);
 
 	return (
 		<FilterProvider blocks={blocks}>

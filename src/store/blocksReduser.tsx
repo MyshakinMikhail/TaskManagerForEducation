@@ -6,7 +6,7 @@ import type { BlockType } from "../pages/Notes/types/Block";
 import type { NoteStatusType } from "../pages/Notes/types/NoteStatus";
 import type { ShortNoteType } from "../pages/Notes/types/ShortNoteType";
 import { parseReadableToISO } from "../utils/getFormattedDate";
-import { getStatus, getStatusByDate } from "../utils/getStatus";
+import { getNextStatusAfterClick, getStatusByDate } from "../utils/getStatus";
 
 type initialStateType = {
 	blocks: BlockType[];
@@ -109,10 +109,9 @@ const blocksSlice = createSlice({
 				selectedNote: ShortNoteType;
 			}>
 		) => {
-			const nextStatus: NoteStatusType =
-				action.payload.selectedNote.status === "completed"
-					? "in-progress"
-					: "completed";
+			const nextStatus: NoteStatusType = getNextStatusAfterClick(
+				action.payload.selectedNote
+			);
 
 			state.blocks = state.blocks.map((block) =>
 				block.id === action.payload.blockId
@@ -129,14 +128,12 @@ const blocksSlice = createSlice({
 					  }
 					: block
 			);
-
 			storage.set(state.blocks);
 		},
 		deleteNote: (
 			state,
 			action: PayloadAction<{ blockId: string; noteId: string }>
 		) => {
-			// blockId, noteId
 			state.blocks = state.blocks.map((block) =>
 				block.id === action.payload.blockId
 					? {
@@ -150,38 +147,16 @@ const blocksSlice = createSlice({
 
 			storage.set(state.blocks);
 		},
-		updateNoteStatus: (
-			state,
-			action: PayloadAction<{
-				blockId: string;
-				selectedNote: ShortNoteType;
-			}>
-		) => {
-			if (action.payload.selectedNote.status === "completed") return;
-
-			const newStatus =
-				getStatus(action.payload.selectedNote) ??
-				action.payload.selectedNote.status;
-
-			if (newStatus !== action.payload.selectedNote.status) {
-				state.blocks = state.blocks.map((block) =>
-					block.id === action.payload.blockId
-						? {
-								...block,
-								notes: block.notes.map((note) =>
-									note.id === action.payload.selectedNote.id
-										? { ...note, status: newStatus }
-										: note
-								),
-						  }
-						: block
-				);
-
-				storage.set(state.blocks);
-			}
-		},
 	},
 });
 
-export const { updateNameBlock } = blocksSlice.actions;
+export const {
+	updateNameBlock,
+	addEmptyBlock,
+	removeBlock,
+	addEmptyNote,
+	updateNote,
+	changeStatus,
+	deleteNote,
+} = blocksSlice.actions;
 export default blocksSlice.reducer;

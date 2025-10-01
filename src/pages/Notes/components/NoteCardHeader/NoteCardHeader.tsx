@@ -1,10 +1,10 @@
 import { CircleCheck, PencilToSquare, Xmark } from "@gravity-ui/icons";
 import { Button, Flex, Icon, Label } from "@gravity-ui/uikit";
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { useBlocksStore } from "../../../../store/useBlocks";
+import { type Dispatch, type SetStateAction } from "react";
+import { useDispatch } from "react-redux";
+import { changeStatus } from "../../../../store/blocksReduser";
 import { getConvertedStatus } from "../../../../utils/getConvertedStatus";
 import { getStatusColor } from "../../../../utils/getStatusColor";
-import type { NoteStatusType } from "../../types/NoteStatus";
 import type { ShortNoteType } from "../../types/ShortNoteType";
 import classes from "./NoteCardHeader.module.css";
 
@@ -21,13 +21,8 @@ export default function NoteCardHeader({
 	setOpen,
 	setIsDialogOpen,
 }: Props) {
-	const { changeStatus, updateNoteStatus } = useBlocksStore();
-	const [status, setStatus] = useState<NoteStatusType>(note.status);
-	const statusTheme = getStatusColor(status);
-
-	useEffect(() => {
-		setStatus(updateNoteStatus(blockId, note));
-	}, [updateNoteStatus, blockId, note]);
+	const dispatch = useDispatch();
+	const statusTheme = getStatusColor(note.status);
 
 	return (
 		<Flex justifyContent="space-between" alignItems="center">
@@ -36,7 +31,7 @@ export default function NoteCardHeader({
 					view="flat"
 					onClick={(e) => {
 						e.stopPropagation();
-						changeStatus(blockId, note);
+						dispatch(changeStatus({ blockId, selectedNote: note }));
 					}}
 				>
 					<Icon

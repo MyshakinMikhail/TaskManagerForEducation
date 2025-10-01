@@ -1,6 +1,7 @@
 import { Plus } from "@gravity-ui/icons";
 import { Button, Flex, Icon, Text } from "@gravity-ui/uikit";
-import { useBlocksStore } from "../../../../store/useBlocks";
+import { useDispatch } from "react-redux";
+import { addEmptyNote } from "../../../../store/blocksReduser";
 import type { BlockType } from "../../types/Block";
 import NoteCard from "../NoteCard/NoteCard";
 import classes from "./BlockContent.module.css";
@@ -10,7 +11,7 @@ type Props = {
 };
 
 export default function BlockContent({ block }: Props) {
-	const { addEmptyNote } = useBlocksStore();
+	const dispatch = useDispatch();
 
 	return (
 		<Flex
@@ -33,7 +34,7 @@ export default function BlockContent({ block }: Props) {
 				className={classes.button}
 				view="flat"
 				onClick={() => {
-					addEmptyNote(block.id);
+					dispatch(addEmptyNote({ blockId: block.id }));
 				}}
 			>
 				<Icon data={Plus} />

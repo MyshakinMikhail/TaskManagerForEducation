@@ -1,11 +1,12 @@
 import { Button, Flex, Select } from "@gravity-ui/uikit";
 import { memo } from "react";
+import { useDispatch } from "react-redux";
 import { useFilter } from "../../../../context/Filter/useFilter";
-import { useBlocksStore } from "../../../../store/useBlocks";
+import { addEmptyBlock } from "../../../../store/blocksReduser";
 import classes from "./ContentHeader.module.css";
 
 function ContentHeader() {
-	const { addEmptyBlock } = useBlocksStore();
+	const dispatch = useDispatch();
 	const { filter, setFilter } = useFilter();
 
 	return (
@@ -15,7 +16,7 @@ function ContentHeader() {
 			alignItems="center"
 			gap={3}
 		>
-			<Button view="action" onClick={() => addEmptyBlock()}>
+			<Button view="action" onClick={() => dispatch(addEmptyBlock())}>
 				Добавить блок
 			</Button>
 			<Select

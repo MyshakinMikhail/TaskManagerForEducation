@@ -1,7 +1,8 @@
 import { Calendar, TextAlignLeft } from "@gravity-ui/icons";
 import { Button, Flex, Icon, Text, TextInput } from "@gravity-ui/uikit";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { useBlocksStore } from "../../../../store/useBlocks";
+import { useDispatch } from "react-redux";
+import { updateNote } from "../../../../store/blocksReduser";
 import { formatDateToReadable } from "../../../../utils/getFormattedDate";
 import { isValidReadableDate } from "../../../../utils/validateDateField";
 import type { ShortNoteType } from "../../types/ShortNoteType";
@@ -17,7 +18,7 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 	const [description, setDescription] = useState<string>(note.description);
 	const [date, setDate] = useState<string>(formatDateToReadable(note.date));
 	const [isEdited, setIsEdited] = useState<boolean>(false);
-	const { updateNote } = useBlocksStore();
+	const dispatch = useDispatch();
 
 	console.log("render");
 
@@ -83,7 +84,12 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 				<Button
 					view="action"
 					onClick={() => {
-						updateNote(blockId, { ...note, description, date });
+						dispatch(
+							updateNote({
+								blockId,
+								selectedNote: { ...note, description, date },
+							})
+						);
 						setOpen(false);
 					}}
 					disabled={dateState === "invalid"}

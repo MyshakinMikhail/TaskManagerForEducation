@@ -1,7 +1,8 @@
 import { Check, PencilToLine } from "@gravity-ui/icons";
 import { Button, Flex, Icon, Text, TextInput } from "@gravity-ui/uikit";
 import { useEffect, useRef, useState } from "react";
-import { useBlocksStore } from "../../../../store/useBlocks";
+import { useDispatch } from "react-redux";
+import { updateNameBlock } from "../../../../store/blocksReduser";
 import type { BlockType } from "../../types/Block";
 
 type Props = {
@@ -12,10 +13,10 @@ export default function BlockName({ block }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [blockName, setBlockName] = useState<string>(block.name);
 	const [isEditingName, setIsEditingName] = useState<boolean>(false);
+	const dispatch = useDispatch();
 
-	const { updateNameBlock } = useBlocksStore();
 	const saveBlockName = () => {
-		updateNameBlock(block.id, blockName);
+		dispatch(updateNameBlock({ blockId: block.id, blockName }));
 		setIsEditingName(false);
 	};
 

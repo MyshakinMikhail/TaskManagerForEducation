@@ -16,3 +16,16 @@ export const getStatusByDate = (
 	if (settled < now) return "overdue";
 	return "in-progress";
 };
+
+export const getNextStatusAfterClick = (note: ShortNoteType) => {
+	if (note.status === "completed") {
+		const now = Date.now();
+		const currDate = new Date(note.date).getTime();
+		if (now > currDate) {
+			return "overdue";
+		}
+		return "in-progress";
+	}
+
+	return "completed";
+};

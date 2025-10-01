@@ -1,6 +1,7 @@
 import { Dialog, Text } from "@gravity-ui/uikit";
 import type { Dispatch, SetStateAction } from "react";
-import { useBlocksStore } from "../../../../store/useBlocks";
+import { useDispatch } from "react-redux";
+import { removeBlock } from "../../../../store/blocksReduser";
 import type { BlockType } from "../../types/Block";
 import classes from "./BlockDeleteDialog.module.css";
 
@@ -15,14 +16,14 @@ export default function BlockDeleteDialog({
 	isDialogOpen,
 	setIsDialogOpen,
 }: Props) {
-	const { removeBlock } = useBlocksStore();
+	const dispatch = useDispatch();
 
 	return (
 		<Dialog
 			className={classes.dialog}
 			onClose={() => setIsDialogOpen(false)}
 			open={isDialogOpen}
-			onEnterKeyDown={() => removeBlock(block.id)}
+			onEnterKeyDown={() => dispatch(removeBlock({ id: block.id }))}
 		>
 			<Dialog.Header
 				className={classes.dialogHeader}
@@ -40,7 +41,9 @@ export default function BlockDeleteDialog({
 			</Dialog.Body>
 			<Dialog.Footer
 				onClickButtonCancel={() => setIsDialogOpen(false)}
-				onClickButtonApply={() => removeBlock(block.id)}
+				onClickButtonApply={() =>
+					dispatch(removeBlock({ id: block.id }))
+				}
 				textButtonApply="Удалить"
 				textButtonCancel="Отмена"
 			/>

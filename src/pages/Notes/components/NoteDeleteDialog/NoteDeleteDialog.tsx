@@ -1,6 +1,7 @@
 import { Dialog, Text } from "@gravity-ui/uikit";
 import type { Dispatch, SetStateAction } from "react";
-import { useBlocksStore } from "../../../../store/useBlocks";
+import { useDispatch } from "react-redux";
+import { deleteNote } from "../../../../store/blocksReduser";
 import type { ShortNoteType } from "../../types/ShortNoteType";
 import classes from "./NoteDeleteDialog.module.css";
 
@@ -17,14 +18,16 @@ export default function NoteDeleteDialog({
 	isDialogOpen,
 	setIsDialogOpen,
 }: Props) {
-	const { deleteNote } = useBlocksStore();
+	const dispatch = useDispatch();
 
 	return (
 		<Dialog
 			className={classes.dialog}
 			onClose={() => setIsDialogOpen(false)}
 			open={isDialogOpen}
-			onEnterKeyDown={() => deleteNote(blockId, note.id)}
+			onEnterKeyDown={() =>
+				dispatch(deleteNote({ blockId, noteId: note.id }))
+			}
 		>
 			<Dialog.Header
 				className={classes.dialogHeader}
@@ -42,7 +45,9 @@ export default function NoteDeleteDialog({
 			</Dialog.Body>
 			<Dialog.Footer
 				onClickButtonCancel={() => setIsDialogOpen(false)}
-				onClickButtonApply={() => deleteNote(blockId, note.id)}
+				onClickButtonApply={() =>
+					dispatch(deleteNote({ blockId, noteId: note.id }))
+				}
 				textButtonApply="Удалить"
 				textButtonCancel="Отмена"
 			/>
