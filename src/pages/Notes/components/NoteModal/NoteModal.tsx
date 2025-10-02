@@ -20,8 +20,6 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 	const [isEdited, setIsEdited] = useState<boolean>(false);
 	const dispatch = useDispatch();
 
-	console.log("render");
-
 	const dateState = !isValidReadableDate(date) ? "invalid" : undefined;
 
 	useEffect(() => {

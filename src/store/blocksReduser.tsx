@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uniqueId } from "uuid";
-import { storage } from "../api/storage";
+import { blocksApi } from "../api/blocks";
 
 import type { BlockType } from "../pages/Notes/types/Block";
 import type { NoteStatusType } from "../pages/Notes/types/NoteStatus";
@@ -12,7 +12,7 @@ type initialStateType = {
 	blocks: BlockType[];
 };
 
-const initialState: initialStateType = { blocks: storage.get() };
+const initialState: initialStateType = { blocks: blocksApi.get() };
 
 const blocksSlice = createSlice({
 	name: "blocks",
@@ -27,7 +27,7 @@ const blocksSlice = createSlice({
 					? { ...currBlock, name: action.payload.blockName }
 					: currBlock
 			);
-			storage.set(state.blocks);
+			blocksApi.set(state.blocks);
 		},
 		addEmptyBlock: (state) => {
 			const block = {
@@ -37,14 +37,14 @@ const blocksSlice = createSlice({
 			};
 
 			state.blocks = [...state.blocks, block];
-			storage.set(state.blocks);
+			blocksApi.set(state.blocks);
 		},
 		removeBlock: (state, action: PayloadAction<{ id: string }>) => {
 			state.blocks = state.blocks.filter(
 				(block: BlockType) => block.id !== action.payload.id
 			);
 
-			storage.set(state.blocks);
+			blocksApi.set(state.blocks);
 		},
 		addEmptyNote: (state, action: PayloadAction<{ blockId: string }>) => {
 			const now = new Date();
@@ -65,7 +65,7 @@ const blocksSlice = createSlice({
 					: block
 			);
 
-			storage.set(state.blocks);
+			blocksApi.set(state.blocks);
 		},
 		updateNote: (
 			state,
@@ -74,9 +74,7 @@ const blocksSlice = createSlice({
 				selectedNote: ShortNoteType;
 			}>
 		) => {
-			const newStatus = getStatusByDate(
-				parseReadableToISO(action.payload.selectedNote.date)
-			);
+			const newStatus = getStatusByDate(action.payload.selectedNote);
 
 			state.blocks = state.blocks.map((block) =>
 				block.id === action.payload.blockId
@@ -100,7 +98,7 @@ const blocksSlice = createSlice({
 					: block
 			);
 
-			storage.set(state.blocks);
+			blocksApi.set(state.blocks);
 		},
 		changeStatus: (
 			state,
@@ -128,7 +126,7 @@ const blocksSlice = createSlice({
 					  }
 					: block
 			);
-			storage.set(state.blocks);
+			blocksApi.set(state.blocks);
 		},
 		deleteNote: (
 			state,
@@ -145,7 +143,7 @@ const blocksSlice = createSlice({
 					: block
 			);
 
-			storage.set(state.blocks);
+			blocksApi.set(state.blocks);
 		},
 	},
 });

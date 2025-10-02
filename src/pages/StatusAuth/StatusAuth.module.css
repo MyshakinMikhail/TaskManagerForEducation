@@ -1,0 +1,22 @@
+/* StatusAuth.module.css */
+
+.statusAuth {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.card {
+	padding: 32px;
+	min-width: 320px;
+	max-width: 400px;
+	border-radius: 16px;
+	text-align: center;
+}
+
+.card p,
+.card span {
+	color: #ffffff;
+}

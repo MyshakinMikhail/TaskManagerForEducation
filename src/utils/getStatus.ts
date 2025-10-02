@@ -1,5 +1,6 @@
 import type { NoteStatusType } from "../pages/Notes/types/NoteStatus";
 import type { ShortNoteType } from "../pages/Notes/types/ShortNoteType";
+import { parseReadableToISO } from "./getFormattedDate";
 
 export const getStatus = (note: ShortNoteType): NoteStatusType | undefined => {
 	const now = Date.now();
@@ -8,11 +9,11 @@ export const getStatus = (note: ShortNoteType): NoteStatusType | undefined => {
 	return;
 };
 
-export const getStatusByDate = (
-	date: string = "2025-09-26T15:01:32.198Z"
-): NoteStatusType => {
+export const getStatusByDate = (note: ShortNoteType): NoteStatusType => {
+	if (note.status === "completed") return note.status;
+
 	const now = Date.now();
-	const settled = new Date(date).getTime();
+	const settled = new Date(parseReadableToISO(note.date)).getTime();
 	if (settled < now) return "overdue";
 	return "in-progress";
 };

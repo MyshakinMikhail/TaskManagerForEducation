@@ -25,9 +25,11 @@ export default function NoteDeleteDialog({
 			className={classes.dialog}
 			onClose={() => setIsDialogOpen(false)}
 			open={isDialogOpen}
-			onEnterKeyDown={() =>
-				dispatch(deleteNote({ blockId, noteId: note.id }))
-			}
+			onEnterKeyDown={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				dispatch(deleteNote({ blockId, noteId: note.id }));
+			}}
 		>
 			<Dialog.Header
 				className={classes.dialogHeader}

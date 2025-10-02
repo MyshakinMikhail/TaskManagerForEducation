@@ -1,24 +1,33 @@
-import { settings } from "@gravity-ui/date-utils";
 import { ThemeProvider } from "@gravity-ui/uikit";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/Auth/AuthProvider";
+import AuthPage from "./pages/Auth/Auth";
 import NotesPage from "./pages/Notes/Notes";
+import StatusAuthPage from "./pages/StatusAuth/StatusAuth";
+import ProtectedRouter from "./routes/ProtectedRouter";
 
-settings.loadLocale("en");
-
-function App() {
+export default function App() {
 	return (
-		<DndProvider backend={HTML5Backend}>
-			<ThemeProvider theme="dark" lang="en">
-				<BrowserRouter>
+		<ThemeProvider theme="dark" lang="en">
+			<BrowserRouter>
+				<AuthProvider>
 					<Routes>
-						<Route path="/" element={<NotesPage />} />
+						<Route element={<ProtectedRouter />}>
+							<Route path="/" element={<NotesPage />} />
+						</Route>
+
+						<Route path="/auth" element={<AuthPage />} />
+						<Route
+							path="/statusAuth"
+							element={<StatusAuthPage />}
+						/>
+						<Route
+							path="*"
+							element={<Navigate to="/auth" replace />}
+						/>
 					</Routes>
-				</BrowserRouter>
-			</ThemeProvider>
-		</DndProvider>
+				</AuthProvider>
+			</BrowserRouter>
+		</ThemeProvider>
 	);
 }
-
-export default App;
