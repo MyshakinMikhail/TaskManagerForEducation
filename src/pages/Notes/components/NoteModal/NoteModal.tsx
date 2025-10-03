@@ -2,7 +2,7 @@ import { Calendar, TextAlignLeft } from "@gravity-ui/icons";
 import { Button, Flex, Icon, Text, TextInput } from "@gravity-ui/uikit";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useDispatch } from "react-redux";
-import { updateNote } from "../../../../store/blocksReduser";
+import { updateNote } from "../../../../store/blocks/blocksReduser";
 import { formatDateToReadable } from "../../../../utils/getFormattedDate";
 import { isValidReadableDate } from "../../../../utils/validateDateField";
 import type { ShortNoteType } from "../../types/ShortNoteType";

@@ -1,29 +1,33 @@
 import { Card, Flex, Text } from "@gravity-ui/uikit";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { userApi } from "../../api/user";
-import { useAuth } from "../../context/Auth/useAuth";
+import type { AppDispatch, RootState } from "../../store";
+import { handleCallback } from "../../store/auth/authThunks";
 import classes from "./StatusAuth.module.css";
 
 export default function StatusAuthPage() {
-	const { handleCallback, loading, user } = useAuth();
+	const { user, loading } = useSelector((state: RootState) => state.auth);
+	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function processAuth() {
-			handleCallback();
-			const currentUser = userApi.get();
-			if (currentUser) {
-				setTimeout(() => {
-					navigate("/", { replace: true });
-				}, 2000);
+			const resultAction = await dispatch(handleCallback());
+			if (handleCallback.fulfilled.match(resultAction)) {
+				navigate("/", { replace: true });
 			} else {
 				navigate("/auth", { replace: true });
 			}
 		}
-
 		processAuth();
-	}, [handleCallback, navigate]);
+	}, [dispatch, navigate]);
+
+	useEffect(() => {
+		if (user) {
+			navigate("/statusAuth", { replace: true });
+		}
+	}, [user, navigate]);
 
 	return (
 		<Flex

@@ -1,7 +1,7 @@
 import { Dialog, Text } from "@gravity-ui/uikit";
 import type { Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
-import { removeBlock } from "../../../../store/blocksReduser";
+import { removeBlock } from "../../../../store/blocks/blocksReduser";
 import type { BlockType } from "../../types/Block";
 import classes from "./BlockDeleteDialog.module.css";
 

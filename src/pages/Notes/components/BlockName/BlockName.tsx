@@ -2,7 +2,7 @@ import { Check, PencilToLine } from "@gravity-ui/icons";
 import { Button, Flex, Icon, Text, TextInput } from "@gravity-ui/uikit";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateNameBlock } from "../../../../store/blocksReduser";
+import { updateNameBlock } from "../../../../store/blocks/blocksReduser";
 import type { BlockType } from "../../types/Block";
 
 type Props = {

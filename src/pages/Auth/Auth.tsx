@@ -1,9 +1,12 @@
 import { Button, Card, Flex, Text } from "@gravity-ui/uikit";
-import { useAuth } from "../../context/Auth/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../store";
+import { login } from "../../store/auth/authThunks";
 import classes from "./Auth.module.css";
 
 export default function AuthPage() {
-	const { login, loading } = useAuth();
+	const { loading } = useSelector((state: RootState) => state.auth);
+	const dispatch = useDispatch<AppDispatch>();
 
 	return (
 		<Flex
@@ -13,7 +16,13 @@ export default function AuthPage() {
 		>
 			<Card className={classes.card}>
 				<Text>Вход через Яндекс ID</Text>
-				<Button onClick={login}>Войти через Яндекс</Button>
+				<Button
+					onClick={() => {
+						dispatch(login());
+					}}
+				>
+					Войти через Яндекс
+				</Button>
 				{loading && <Text>Авторизация...</Text>}
 			</Card>
 		</Flex>

@@ -2,7 +2,7 @@ import { CircleCheck, PencilToSquare, Xmark } from "@gravity-ui/icons";
 import { Button, Flex, Icon, Label } from "@gravity-ui/uikit";
 import { type Dispatch, type SetStateAction } from "react";
 import { useDispatch } from "react-redux";
-import { changeStatus } from "../../../../store/blocksReduser";
+import { changeStatus } from "../../../../store/blocks/blocksReduser";
 import { getConvertedStatus } from "../../../../utils/getConvertedStatus";
 import { getStatusColor } from "../../../../utils/getStatusColor";
 import type { ShortNoteType } from "../../types/ShortNoteType";

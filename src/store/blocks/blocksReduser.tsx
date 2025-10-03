@@ -1,12 +1,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uniqueId } from "uuid";
-import { blocksApi } from "../api/blocks";
+import { blocksApi } from "../../api/blocks";
 
-import type { BlockType } from "../pages/Notes/types/Block";
-import type { NoteStatusType } from "../pages/Notes/types/NoteStatus";
-import type { ShortNoteType } from "../pages/Notes/types/ShortNoteType";
-import { parseReadableToISO } from "../utils/getFormattedDate";
-import { getNextStatusAfterClick, getStatusByDate } from "../utils/getStatus";
+import type { BlockType } from "../../pages/Notes/types/Block";
+import type { NoteStatusType } from "../../pages/Notes/types/NoteStatus";
+import type { ShortNoteType } from "../../pages/Notes/types/ShortNoteType";
+import { parseReadableToISO } from "../../utils/getFormattedDate";
+import { getNextStatusAfterClick, getStatusByDate } from "../../utils/getStatus";
 
 type initialStateType = {
 	blocks: BlockType[];

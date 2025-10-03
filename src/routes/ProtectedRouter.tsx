@@ -1,12 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../context/Auth/useAuth";
+import { tokenApi } from "../api/token";
 
 export default function ProtectedRouter() {
-	const { user, loading } = useAuth();
-
-	if (loading) return <p>Загрузка...</p>;
-
-	if (!user) return <Navigate to="/auth" replace />;
+	const token = tokenApi.get();
+	if (!token) return <Navigate to="/auth" replace />;
 
 	return <Outlet />;
 }

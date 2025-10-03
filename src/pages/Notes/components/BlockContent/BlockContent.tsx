@@ -1,7 +1,7 @@
 import { Plus } from "@gravity-ui/icons";
 import { Button, Flex, Icon, Text } from "@gravity-ui/uikit";
 import { useDispatch } from "react-redux";
-import { addEmptyNote } from "../../../../store/blocksReduser";
+import { addEmptyNote } from "../../../../store/blocks/blocksReduser";
 import type { BlockType } from "../../types/Block";
 import NoteCard from "../NoteCard/NoteCard";
 import classes from "./BlockContent.module.css";

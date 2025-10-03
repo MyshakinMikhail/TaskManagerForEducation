@@ -7,4 +7,7 @@ export const pkceApi = {
 	set: (codeVerifier: string) => {
 		localStorage.setItem(STORAGE_KEY, codeVerifier);
 	},
+	remove: () => {
+		localStorage.removeItem(STORAGE_KEY);
+	},
 };

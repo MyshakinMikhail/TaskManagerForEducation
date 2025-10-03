@@ -1,7 +1,7 @@
 import { Dialog, Text } from "@gravity-ui/uikit";
 import type { Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
-import { deleteNote } from "../../../../store/blocksReduser";
+import { deleteNote } from "../../../../store/blocks/blocksReduser";
 import type { ShortNoteType } from "../../types/ShortNoteType";
 import classes from "./NoteDeleteDialog.module.css";
 

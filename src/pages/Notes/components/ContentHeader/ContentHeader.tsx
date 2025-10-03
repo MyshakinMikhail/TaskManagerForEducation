@@ -2,7 +2,7 @@ import { Button, Flex, Select } from "@gravity-ui/uikit";
 import { memo } from "react";
 import { useDispatch } from "react-redux";
 import { useFilter } from "../../../../context/Filter/useFilter";
-import { addEmptyBlock } from "../../../../store/blocksReduser";
+import { addEmptyBlock } from "../../../../store/blocks/blocksReduser";
 import classes from "./ContentHeader.module.css";
 
 function ContentHeader() {
