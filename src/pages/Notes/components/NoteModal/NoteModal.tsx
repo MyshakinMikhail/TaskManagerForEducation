@@ -85,7 +85,11 @@ export default function NoteModal({ blockId, note, setOpen }: Props) {
 						dispatch(
 							updateNote({
 								blockId,
-								selectedNote: { ...note, description, date },
+								selectedNote: {
+									...note,
+									description,
+									date,
+								},
 							})
 						);
 						setOpen(false);

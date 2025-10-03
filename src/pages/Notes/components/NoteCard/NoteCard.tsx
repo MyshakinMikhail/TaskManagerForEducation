@@ -1,5 +1,6 @@
 import { Card, Modal, Text } from "@gravity-ui/uikit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useModal } from "../../../../context/Modal/useModal";
 import type { ShortNoteType } from "../../types/ShortNoteType";
 import NoteCardHeader from "../NoteCardHeader/NoteCardHeader";
 import NoteDeleteDialog from "../NoteDeleteDialog/NoteDeleteDialog";
@@ -13,6 +14,11 @@ type Props = {
 export default function NoteCard({ blockId, note }: Props) {
 	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 	const [open, setOpen] = useState<boolean>(false);
+	const { setIsModalOpen } = useModal();
+
+	useEffect(() => {
+		setIsModalOpen(open || isDialogOpen);
+	}, [open, isDialogOpen, setIsModalOpen]);
 
 	return (
 		<>

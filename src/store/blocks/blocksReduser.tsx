@@ -2,11 +2,16 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uniqueId } from "uuid";
 import { blocksApi } from "../../api/blocks";
 
+import type { DragEndEvent } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 import type { BlockType } from "../../pages/Notes/types/Block";
 import type { NoteStatusType } from "../../pages/Notes/types/NoteStatus";
 import type { ShortNoteType } from "../../pages/Notes/types/ShortNoteType";
 import { parseReadableToISO } from "../../utils/getFormattedDate";
-import { getNextStatusAfterClick, getStatusByDate } from "../../utils/getStatus";
+import {
+	getNextStatusAfterClick,
+	getStatusByDate,
+} from "../../utils/getStatus";
 
 type initialStateType = {
 	blocks: BlockType[];
@@ -18,6 +23,22 @@ const blocksSlice = createSlice({
 	name: "blocks",
 	initialState,
 	reducers: {
+		handleDragEnd: (state, action: PayloadAction<DragEndEvent>) => {
+			const { active, over } = action.payload;
+
+			if (active.id !== over?.id) {
+				const oldIndex = state.blocks.findIndex(
+					(b) => b.id === active.id
+				);
+				const newIndex = state.blocks.findIndex(
+					(b) => b.id === over?.id
+				);
+				const newBlocks = arrayMove(state.blocks, oldIndex, newIndex);
+				state.blocks = newBlocks;
+
+				blocksApi.set(newBlocks);
+			}
+		},
 		updateNameBlock: (
 			state,
 			action: PayloadAction<{ blockId: string; blockName: string }>
@@ -149,6 +170,7 @@ const blocksSlice = createSlice({
 });
 
 export const {
+	handleDragEnd,
 	updateNameBlock,
 	addEmptyBlock,
 	removeBlock,

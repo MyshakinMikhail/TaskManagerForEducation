@@ -46,7 +46,9 @@ export default function NoteDeleteDialog({
 				</Text>
 			</Dialog.Body>
 			<Dialog.Footer
-				onClickButtonCancel={() => setIsDialogOpen(false)}
+				onClickButtonCancel={() => {
+					setIsDialogOpen(false);
+				}}
 				onClickButtonApply={() =>
 					dispatch(deleteNote({ blockId, noteId: note.id }))
 				}

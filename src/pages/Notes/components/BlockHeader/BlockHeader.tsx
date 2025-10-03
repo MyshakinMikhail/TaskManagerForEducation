@@ -1,6 +1,7 @@
 import { TrashBin } from "@gravity-ui/icons";
 import { Button, Flex, Icon } from "@gravity-ui/uikit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useModal } from "../../../../context/Modal/useModal";
 import type { BlockType } from "../../types/Block";
 import BlockDeleteDialog from "../BlockDeleteDialog/BlockDeleteDialog";
 import BlockName from "../BlockName/BlockName";
@@ -12,6 +13,11 @@ type Props = {
 
 export default function BlockHeader({ block }: Props) {
 	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+	const { setIsModalOpen } = useModal();
+
+	useEffect(() => {
+		setIsModalOpen(isDialogOpen);
+	}, [isDialogOpen, setIsModalOpen]);
 
 	return (
 		<>

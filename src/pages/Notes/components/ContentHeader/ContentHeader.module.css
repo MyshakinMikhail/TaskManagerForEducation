@@ -3,6 +3,7 @@
 	/* background-color: rgb(200, 198, 198); */
 	border-radius: 7px 7px 0 0;
 	overflow: hidden;
+	min-height: 50px;
 }
 
 .textInput {

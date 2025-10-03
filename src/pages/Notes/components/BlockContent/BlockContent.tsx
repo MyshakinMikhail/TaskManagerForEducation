@@ -3,7 +3,7 @@ import { Button, Flex, Icon, Text } from "@gravity-ui/uikit";
 import { useDispatch } from "react-redux";
 import { addEmptyNote } from "../../../../store/blocks/blocksReduser";
 import type { BlockType } from "../../types/Block";
-import NoteCard from "../NoteCard/NoteCard";
+import NotesList from "../NotesList/NotesList";
 import classes from "./BlockContent.module.css";
 
 type Props = {
@@ -24,11 +24,7 @@ export default function BlockContent({ block }: Props) {
 				<Text variant="body-2">У вас пока не заметок</Text>
 			)}
 
-			<Flex direction="column" gap={2}>
-				{block.notes.map((note) => (
-					<NoteCard key={note.id} blockId={block.id} note={note} />
-				))}
-			</Flex>
+			<NotesList block={block} />
 
 			<Button
 				className={classes.button}

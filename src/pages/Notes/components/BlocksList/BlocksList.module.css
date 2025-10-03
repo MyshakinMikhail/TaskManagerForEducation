@@ -2,3 +2,14 @@
 	flex: 1;
 	padding: 10px;
 }
+.dragHandle {
+	height: 20px;
+	background: #f0f0f0;
+	cursor: grab;
+	margin-bottom: 5px;
+	border-radius: 4px;
+}
+
+.dragHandle:active {
+	cursor: grabbing;
+}
