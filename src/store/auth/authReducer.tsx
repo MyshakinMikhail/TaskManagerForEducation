@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { tokenApi } from "../../api/token";
+import { userApi } from "../../api/user";
 import type { User } from "../../pages/Auth/types/User";
 import { handleCallback } from "./authThunks";
 
@@ -9,7 +10,7 @@ export type AuthState = {
 };
 
 const initialState: AuthState = {
-	user: null,
+	user: userApi.get(),
 	loading: false,
 };
 
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
 	reducers: {
 		logout: (state) => {
 			state.user = null;
+			userApi.remove();
 			tokenApi.remove();
 		},
 	},

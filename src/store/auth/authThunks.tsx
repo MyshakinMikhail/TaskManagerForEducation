@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { pkceApi } from "../../api/pkce";
 import { tokenApi } from "../../api/token";
+import { userApi } from "../../api/user";
 import type { User } from "../../pages/Auth/types/User";
 import { generatePKCE } from "../../utils/generatePKCE";
 
@@ -58,7 +59,7 @@ export const handleCallback = createAsyncThunk(
 				firstName: userInfo.first_name,
 				lastName: userInfo.last_name,
 			};
-
+			userApi.set(convertedUserInfo);
 			tokenApi.set(data.access_token);
 			pkceApi.remove();
 			window.history.replaceState({}, document.title, "/");
